@@ -2,15 +2,22 @@
 <html lang="en-US">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>hex2keyword</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <form action="">
-        <fieldset>
-            <label for="hexCode">hex</label>
-            <input id="hexCode" type="text" value="000000" pattern="[a-f0-9]{6}" required autofocus>
-            <output id="output" for="hexCode">black</output>
+    <form action="" class="form">
+        <fieldset class="form-fieldset js-form-fieldset-spec">
+            <legend>Filter specification</legend>
+        </fieldset>
+        <fieldset class="form-fieldset">
+            <legend>Your hex color</legend>
+            <input id="hexCode" class="form-input" type="text" value="000000" pattern="[a-f0-9]{6}" required autofocus placeholder="000000">
+        </fieldset>
+        <fieldset class="form-fieldset">
+            <legend>Result</legend>
+            <div class="form-output js-form-output"></div>
         </fieldset>
     </form>
     <script src="script.js"></script>

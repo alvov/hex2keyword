@@ -1,3 +1,43 @@
-input:invalid {
-    border: 1px solid red;
+body {
+    margin: 0;
+}
+.form {
+    min-width: 320px;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 10px;
+    font: 14px/2em Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+.form-label-inline {
+    display: block;
+}
+
+.form-input:focus {
+    outline: 0;
+    border-color: royalblue;
+}
+.form-input:invalid {
+    border-color: red;
+}
+
+.form-output-row {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    margin: 0 0 5px;
+}
+.form-output-row div:nth-child(1) {
+    flex: 1 1 auto;
+    text-align: left;
+}
+.form-output-row div:nth-child(2) {
+    flex: 0 0 10%;
+}
+.form-output-row div:nth-child(3) {
+    flex: 0 0 35%;
+}
+.form-output-row div:nth-child(4) {
+    flex: 0 0 25%;
 }
