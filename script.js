@@ -740,7 +740,7 @@
             spec: 3
         }
     ];
-    // add lab
+    // calculate lab
     colors.forEach(color => {
         color.lab = hex2lab(color.hex);
     });
@@ -759,6 +759,7 @@
     setOutputLimitText();
 
     const specFieldsetNode = document.querySelector('.js-form-fieldset_spec');
+    // render specification filter controls
     const specNodes = [];
     specFieldsetNode.appendChild(
         [['Don\'t filter']].concat(spec).reduce((fragment, specNames, index) => {
@@ -787,8 +788,6 @@
         }, document.createDocumentFragment())
     );
 
-    getSimilarColors();
-
     hexInputNode.addEventListener('input', getSimilarColors);
     specFieldsetNode.addEventListener('change', e => {
         if (specNodes.includes(e.target)) {
@@ -801,6 +800,12 @@
         output(limit(state.currentResult));
     });
 
+    // render default list
+    getSimilarColors();
+
+    /**
+     * Sorts colors by delta with the given color and renders result list
+     */
     function getSimilarColors() {
         let result = [];
         if (hexInputNode.validity.valid) {
@@ -826,6 +831,10 @@
         output(result);
     }
 
+    /**
+     * Renders resulting colors list
+     * @param {Object} data
+     */
     function output(data) {
         outputNode.innerHTML = '';
         outputNode.appendChild(data.reduce((fragment, color) => {
@@ -860,14 +869,31 @@
         }, document.createDocumentFragment()));
     }
 
+    /**
+     * Returns delta E value of the CIE76 algorithm
+     * @param {Array} lab1
+     * @param {Array} lab2
+     * @returns {number}
+     */
     function getDeltaE(lab1, lab2) {
         return Math.sqrt(lab2.reduce((sum, q, i) => sum + Math.pow(q - lab1[i], 2), 0));
     }
 
+    /**
+     * Returns rgb values for given hex value
+     * @param {string} hex
+     * @returns {Array}
+     */
     function hex2rgb(hex) {
         return hex.match(/\w\w/g).map(value => parseInt(value, 16));
     }
 
+    /**
+     * Returns CIE 1931 XYZ color space values for given hex value
+     * (borrowed from https://github.com/Qix-/color-convert)
+     * @param {string} hex
+     * @returns {Array}
+     */
     function hex2xyz(hex) {
         const rgb = hex2rgb(hex);
         for (let i = 0; i < 3; i++) {
@@ -881,6 +907,12 @@
         ].map(q => q * 100);
     }
 
+    /**
+     * Returns lab color space values for given hex value
+     * (borrowed from https://github.com/Qix-/color-convert)
+     * @param {string} hex
+     * @returns {Array}
+     */
     function hex2lab(hex) {
         let xyz = hex2xyz(hex);
         xyz[0] /= 95.047;
@@ -898,10 +930,18 @@
         ];
     }
 
+    /**
+     * Returns data array sliced by chosen limit
+     * @param {Array} data
+     * @returns {Array}
+     */
     function limit(data) {
         return data.slice(0, state.limit + 1);
     }
 
+    /**
+     * Renders text for limit control
+     */
     function setOutputLimitText() {
         outputLimitTextNode.textContent =
             outputLimitSelectNode[outputLimitSelectNode.selectedIndex].textContent;
