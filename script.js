@@ -742,52 +742,57 @@
             spec: spec[3]
         }
     ];
+    // add lab
+    colors.forEach(color => {
+        color.lab = hex2lab(color.hex);
+    });
 
     const outputNode = document.querySelector('.js-form-output');
+    const specFieldsetNode = document.querySelector('.js-form-fieldset_spec');
 
-    const specFieldsetNode = document.querySelector('.js-form-fieldset-spec');
     const specNodes = [];
-    specFieldsetNode.appendChild(['Don\'t filter'].concat(spec).reduce((fragment, specName, index) => {
-        const labelNode = document.createElement('label');
-        labelNode.className = 'form-label-inline';
-        const inputNode = document.createElement('input');
-        inputNode.type = 'radio';
-        inputNode.name = 'spec';
-        inputNode.value = index;
-        inputNode.checked = index === 0;
-        labelNode.appendChild(inputNode);
-        const textNode = document.createTextNode((index > 1 ? '≤ ' : '') + specName);
-        labelNode.appendChild(textNode);
-        fragment.appendChild(labelNode);
-        specNodes.push(inputNode);
-        return fragment;
-    }, document.createDocumentFragment()));
+    specFieldsetNode.appendChild(
+        ['Don\'t filter'].concat(spec).reduce((fragment, specName, index) => {
+            const inputNode = document.createElement('input');
+            inputNode.type = 'radio';
+            inputNode.name = 'spec';
+            inputNode.id = 'spec' + index;
+            inputNode.className = 'form-input';
+            inputNode.value = index;
+            inputNode.checked = index === 0;
+            fragment.appendChild(inputNode);
+            const labelNode = document.createElement('label');
+            labelNode.className = 'form-label';
+            labelNode.htmlFor = 'spec' + index;
+            labelNode.textContent = specName;
+            fragment.appendChild(labelNode);
+            specNodes.push(inputNode);
+            return fragment;
+        }, document.createDocumentFragment())
+    );
 
-    checkHex();
+    getSimilarColors();
 
-    hexCode.addEventListener('input', checkHex);
+    hexCode.addEventListener('input', getSimilarColors);
     specFieldsetNode.addEventListener('change', e => {
         if (specNodes.includes(e.target)) {
-            checkHex();
+            getSimilarColors();
         }
     });
 
-    function checkHex() {
+    function getSimilarColors() {
         let result = [];
         if (hexCode.validity.valid) {
-            const colorRGB = hex2rgb(hexCode.value);
             const filterSpec = Number(specNodes.find(specNode => specNode.checked).value);
             if (filterSpec) {
                 result = colors.filter(color => spec.slice(0, filterSpec).includes(color.spec))
             } else {
                 result = colors;
             }
+            const colorLab = hex2lab(hexCode.value);
             result = result
-                .map(color => {
-                    const delta = rgbDelta(colorRGB, hex2rgb(color.hex));
-                    return Object.assign(color, { delta });
-                })
-                .sort((a, b) => a.delta - b.delta)
+                .map(color => Object.assign(color, { deltaE: getDeltaE(colorLab, color.lab) }))
+                .sort((a, b) => a.deltaE - b.deltaE)
                 .slice(0, LIMIT);
             result.unshift({
                 spec: 'Your color',
@@ -820,13 +825,40 @@
         }, document.createDocumentFragment()));
     }
 
-    function rgbDelta(rgb1, rgb2) {
-        return rgb1
-            .map((value, index) => Math.abs(value - rgb2[index]))
-            .reduce((a, b) => a + b);
+    function getDeltaE(lab1, lab2) {
+        return Math.sqrt(lab2.reduce((sum, q, i) => sum + Math.pow(q - lab1[i], 2), 0));
     }
 
     function hex2rgb(hex) {
         return hex.match(/\w\w/g).map(value => parseInt(value, 16));
+    }
+
+    function hex2xyz(hex) {
+        const rgb = hex2rgb(hex);
+        for (let i = 0; i < 3; i++) {
+            rgb[i] = rgb[i] > 0.04045 ? Math.pow(((rgb[i] + 0.055) / 1.055), 2.4) : (rgb[i] / 12.92);
+        }
+        return [
+            (rgb[0] * 0.4124) + (rgb[1] * 0.3576) + (rgb[2] * 0.1805),
+            (rgb[0] * 0.2126) + (rgb[1] * 0.7152) + (rgb[2] * 0.0722),
+            (rgb[0] * 0.0193) + (rgb[1] * 0.1192) + (rgb[2] * 0.9505)
+        ].map(q => q * 100);
+    }
+
+    function hex2lab(hex) {
+        let xyz = hex2xyz(hex);
+        xyz[0] /= 95.047;
+        xyz[1] /= 100;
+        xyz[2] /= 108.883;
+
+        xyz = xyz.map(q => {
+            return q > 0.008856 ? Math.pow(q, 1 / 3) : (7.787 * q) + (16 / 116);
+        });
+
+        return [
+            (116 * xyz[1]) - 16,
+            500 * (xyz[0] - xyz[1]),
+            200 * (xyz[1] - xyz[2])
+        ];
     }
 })();
