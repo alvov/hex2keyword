@@ -8,15 +8,22 @@
 </head>
 <body>
     <form action="" class="form">
-        <fieldset class="form-fieldset js-form-fieldset-spec">
-            <legend>Filter specification</legend>
+        <fieldset class="form-fieldset form-fieldset_spec js-form-fieldset_spec">
+            <legend class="form-legend">Filter specification</legend>
         </fieldset>
         <fieldset class="form-fieldset">
-            <legend>Your hex color</legend>
-            <input id="hexCode" class="form-input" type="text" value="000000" pattern="[a-f0-9]{6}" required autofocus placeholder="000000">
+            <legend class="form-legend">Your hex color</legend>
+            <input id="hexCode" class="form-input-text" type="text" value="000000" placeholder="xxxxxx"
+                 maxlength="6" pattern="[a-f0-9]{6}" required autofocus>
         </fieldset>
-        <fieldset class="form-fieldset">
-            <legend>Result</legend>
+        <fieldset class="form-fieldset form-fieldset_output">
+            <legend class="form-legend">Result</legend>
+            <div class="form-output-limit">
+                <select class="form-output-limit-select js-form-output-limit-select">
+                    <option value="5">show 5 best</option>
+                    <option value="Infinity">show all</option>
+                </select>
+            </div>
             <div class="form-output js-form-output"></div>
         </fieldset>
     </form>
