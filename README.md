@@ -1,5 +1,9 @@
 # hex2keyword
-Small GUI for finding the closest available CSS color keyword relative to given hexadecimal color value with a filter
-by CSS specification.
+GUI form for finding most similar available CSS colors with keywords relative to given hexadecimal color value.
+Colors similarity is calculated by CIE76 algorithm.
 
-**Note:** tested only in Chrome 50.
+The matching list is sorted by delta and can be filtered by CSS specification (the "CSS X" filter works like
+"less than or equal to CSS X"). You may optionally view all available colors sorted from the most similar color
+to the most opposing one.
+
+**Note:** works only in browsers with es2015 support (because what the hell).

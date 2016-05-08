@@ -31,14 +31,14 @@
             <input class="form-input-text js-form-input-text_hex" type="text" value="fea37b" placeholder="xxxxxx"
                  maxlength="6" pattern="[a-f0-9]{6}" required autofocus>
         </fieldset>
+        <div class="form-output-limit">
+            <select class="form-output-limit-select js-form-output-limit-select">
+                <option value="5">show 5 best</option>
+                <option value="Infinity">show all</option>
+            </select>
+        </div>
         <fieldset class="form-fieldset form-fieldset_output">
             <legend class="form-legend">Result</legend>
-            <div class="form-output-limit">
-                <select class="form-output-limit-select js-form-output-limit-select">
-                    <option value="5">show 5 best</option>
-                    <option value="Infinity">show all</option>
-                </select>
-            </div>
             <div class="form-output js-form-output"></div>
         </fieldset>
     </form>

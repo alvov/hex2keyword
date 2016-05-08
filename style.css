@@ -2,6 +2,7 @@ body {
     margin: 0;
 }
 .form {
+    position: relative;
     min-width: 320px;
     max-width: 640px;
     margin: 0 auto;
@@ -97,18 +98,9 @@ body {
     border-color: tomato;
 }
 
-.form-fieldset_output {
-    position: relative;
-    min-height: 250px;
-}
-.form-output {
-    position: relative;
-    font-family: monospace;
-}
 .form-output-limit {
     position: absolute;
-    top: 0;
-    right: 0;
+    right: 10px;
     overflow: hidden;
     color: steelblue;
     cursor: pointer;
@@ -127,6 +119,13 @@ body {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+}
+
+.form-fieldset_output {
+    min-height: 250px;
+}
+.form-output {
+    font-family: monospace;
 }
 
 .form-output-row {
