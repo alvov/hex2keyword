@@ -8,12 +8,27 @@
 </head>
 <body>
     <form action="" class="form">
+        <fieldset class="form-fieldset">
+            <h1>Hex-to-keywords color matching</h1>
+            <p>
+                Ever wondered how to name your SASS or LESS variable, that stands for <code>#fea37b</code> color? Is it
+                <code>$color-orange</code>, or <code>$color-pink</code>, or <code>$color-suntannedskin</code>?
+                Enough for the struggling.
+            </p>
+            <p>
+                Just input your hex color in the form below and get a list of most similar colors and their matching CSS
+                keywords.
+            </p>
+            <p>
+                Can you see now? <code>#fea37b</code> is <code>$color-lightsalmon</code>, of course, goddammit!
+            </p>
+        </fieldset>
         <fieldset class="form-fieldset form-fieldset_spec js-form-fieldset_spec">
             <legend class="form-legend">Filter specification</legend>
         </fieldset>
         <fieldset class="form-fieldset">
             <legend class="form-legend">Your hex color</legend>
-            <input id="hexCode" class="form-input-text" type="text" value="000000" placeholder="xxxxxx"
+            <input class="form-input-text js-form-input-text_hex" type="text" value="fea37b" placeholder="xxxxxx"
                  maxlength="6" pattern="[a-f0-9]{6}" required autofocus>
         </fieldset>
         <fieldset class="form-fieldset form-fieldset_output">

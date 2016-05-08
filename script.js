@@ -750,6 +750,7 @@
         currentResult: null
     };
 
+    const hexInputNode = document.querySelector('.js-form-input-text_hex');
     const outputNode = document.querySelector('.js-form-output');
     const outputLimitSelectNode = document.querySelector('.js-form-output-limit-select');
     state.limit = Number(outputLimitSelectNode.value);
@@ -788,7 +789,7 @@
 
     getSimilarColors();
 
-    hexCode.addEventListener('input', getSimilarColors);
+    hexInputNode.addEventListener('input', getSimilarColors);
     specFieldsetNode.addEventListener('change', e => {
         if (specNodes.includes(e.target)) {
             getSimilarColors();
@@ -802,20 +803,20 @@
 
     function getSimilarColors() {
         let result = [];
-        if (hexCode.validity.valid) {
+        if (hexInputNode.validity.valid) {
             const filterSpec = Number(specNodes.find(specNode => specNode.checked).value);
             if (filterSpec) {
                 result = colors.filter(color => color.spec + 1 <= filterSpec)
             } else {
                 result = colors;
             }
-            const colorLab = hex2lab(hexCode.value);
+            const colorLab = hex2lab(hexInputNode.value);
             result = result
                 .map(color => Object.assign(color, { deltaE: getDeltaE(colorLab, color.lab) }))
                 .sort((a, b) => a.deltaE - b.deltaE);
             result.unshift({
                 spec: null,
-                hex: hexCode.value,
+                hex: hexInputNode.value,
                 keyword: 'your_color',
                 deltaE: ''
             });

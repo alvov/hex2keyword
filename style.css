@@ -20,6 +20,18 @@ body {
     font-size: 16px
 }
 
+.form-fieldset p {
+    margin: 0 0 10px;
+    line-height: 20px;
+}
+.form-fieldset p:last-child {
+    margin-bottom: 0;
+}
+.form-fieldset code {
+    padding: 1px 5px 2px;
+    background-color: aliceblue;
+}
+
 .form-fieldset_spec .form-label {
     position: relative;
     display: inline-block;
@@ -27,6 +39,7 @@ body {
     padding: 5px 10px 4px;
     border-radius: 6px;
     background-color: tomato;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     color: lightyellow;
     font-weight: bold;
     cursor: pointer;
@@ -86,6 +99,7 @@ body {
 
 .form-fieldset_output {
     position: relative;
+    min-height: 250px;
 }
 .form-output {
     position: relative;
