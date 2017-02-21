@@ -37,7 +37,7 @@ body {
     position: relative;
     display: inline-block;
     margin: 0 5px 5px 0;
-    padding: 5px 10px 4px;
+    padding: 4px 10px;
     border-radius: 6px;
     background-color: tomato;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -87,8 +87,10 @@ body {
     padding: 2px 5px;
     font: inherit;
     font-family: monospace;
-    border: 1px solid lightgrey;
+    border: 2px solid lightgrey;
+    border-radius: 6px;
     transition: border-color .2s;
+    box-sizing: border-box;
 }
 .form-input-text:focus {
     outline: 0;
@@ -187,5 +189,8 @@ body {
     }
     .form-output-row div:nth-child(3) {
         flex-grow: 1;
+    }
+    .form-input-text {
+        width: 100%;
     }
 }
