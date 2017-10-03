@@ -815,13 +815,14 @@
             } else {
                 result = colors;
             }
-            const colorLab = hex2lab(hexInputNode.value);
+            const hex = hexInputNode.value.toLowerCase();
+            const colorLab = hex2lab(hex);
             result = result
                 .map(color => Object.assign(color, { deltaE: getDeltaE(colorLab, color.lab) }))
                 .sort((a, b) => a.deltaE - b.deltaE);
             result.unshift({
                 spec: null,
-                hex: hexInputNode.value,
+                hex,
                 keyword: 'your_color',
                 deltaE: ''
             });
